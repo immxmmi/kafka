@@ -1,0 +1,21 @@
+{{- if and .Values.cluster .Values.nodePool }}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: {{ .Values.cluster.name }}
+  annotations:
+    strimzi.io/node-pools: enabled
+    strimzi.io/kraft: enabled
+spec:
+  kafka:
+    version: {{ .Values.cluster.version }}
+    metadataVersion: {{ .Values.cluster.metadataVersion }}
+    listeners:
+{{ toYaml .Values.cluster.listeners | indent 6 }}
+    config:
+{{ toYaml .Values.cluster.config | indent 6 }}
+
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}
+{{- end }}

@@ -1,0 +1,24 @@
+nameOverride: "mqtt-producer"  # Override the default name of the release
+replicaCount: 1
+
+image:
+  repository: harbor.puzzle.ch/pitc-cicd-private/kafka-poc
+  tag: weather-mqtt-producer-latest
+  pullPolicy: IfNotPresent
+  imagePullSecret: registry-pull-secret
+
+mqttBroker:
+  name: system-mosquitto
+  namespace: mosquitto
+  mqttPort: 1883
+  topic: test/data
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 5001
+  targetPort: 5001
+
+env:
+  #WEATHER_API_URL: "https://api.open-meteo.com/v1/forecast?latitude=48.2082&longitude=16.3738&current_weather=true&hourly=temperature_2m,relative_humidity_2m,cloudcover,windgusts_10m,precipitation"
+  FETCH_INTERVAL: 10

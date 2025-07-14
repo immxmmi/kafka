@@ -1,0 +1,32 @@
+replicaCount: 1
+nameOverride: "mqtt-bridge"  # Override the default name of the release
+
+kafkaBroker:
+  name: mykafka-cluster
+  namespace: kafka
+  kafkaPort: 9092
+  topic: topic-test-data
+
+mqttBroker:
+  name: system-mosquitto
+  namespace: mosquitto
+  mqttPort: 1883
+  topic: test/data
+
+image:
+  repository: harbor.puzzle.ch/pitc-cicd-private/kafka-poc
+  tag: latest
+  pullPolicy: IfNotPresent
+  imagePullSecret: registry-pull-secret
+
+service:
+  type: ClusterIP
+  port: 5000
+  targetPort: 5000
+
+env:
+  # Kafka partition balancer mode:
+  # "RoundRobin" - Distributes messages evenly across partitions
+  # "LeastBytes" - Sends messages to the partition with the least load
+  # "Hash" - Assigns partitions based on a hash of the message key
+  KAFKA_BALANCER: "RoundRobin"

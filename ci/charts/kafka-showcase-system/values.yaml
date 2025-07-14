@@ -1,0 +1,86 @@
+# Bridge between MQTT and Kafka
+mqtt-bridge:
+  replicaCount: 1
+  nameOverride: "test-mqtt-bridge"  # Override the default name of the release
+  kafkaBroker:
+    name: mykafka-cluster
+    namespace: kafka
+    kafkaPort: 9092
+    topic: topic-test-data
+  mqttBroker:
+    name: system-mosquitto
+    namespace: mosquitto
+    mqttPort: 1883
+    topic: test/data
+  image:
+    repository: harbor.puzzle.ch/pitc-cicd-private/kafka-poc
+    tag: latest
+    pullPolicy: IfNotPresent
+    imagePullSecret: registry-pull-secret
+  service:
+    type: ClusterIP
+    port: 5000
+    targetPort: 5000
+  env:
+    # Kafka partition balancer mode:
+    # "RoundRobin" - Distributes messages evenly across partitions
+    # "LeastBytes" - Sends messages to the partition with the least load
+    # "Hash" - Assigns partitions based on a hash of the message key
+    KAFKA_BALANCER: "RoundRobin"
+
+# Kafka web consumer configuration
+kafka-web-consumer:
+  nameOverride: test-system
+  replicaCount: 1
+  kafkaBroker:
+    name: mykafka-cluster
+    namespace: kafka
+    kafkaPort: 9092
+    topic: topic-test-data
+
+  deployment:
+    replicas: 1
+    containerPort: 8080
+    env:
+      # The Kafka consumer group in which this consumer runs (e.g., "solar-consumer")
+      KAFKA_CONSUMER_GROUP: "consumer-group-test" 
+      # Offset control:
+      # "first" - Starts from the oldest available offset (reads all messages from the beginning)
+      # "last" - Starts from the latest offset (only reads new messages from the start time)
+      KAFKA_START_OFFSET: "first"
+
+  image:
+    repository: harbor.puzzle.ch/pitc-cicd-private/kafka-poc
+    tag: latest
+    pullPolicy: IfNotPresent
+    imagePullSecret: registry-pull-secret
+
+  service:
+    enabled: true
+    type: "ClusterIP"
+    port: 8080
+
+# Mqtt producer configuration
+mqtt-producer:
+  nameOverride: "test-mqtt-producer"  # Override the default name of the release
+  replicaCount: 1
+  image:
+    repository: harbor.puzzle.ch/pitc-cicd-private/kafka-poc
+    tag: weather-mqtt-producer-latest
+    pullPolicy: IfNotPresent
+    imagePullSecret: registry-pull-secret
+
+  mqttBroker:
+    name: test-system-mosquitto
+    namespace: test-system
+    mqttPort: 1883
+    topic: test/data
+
+  service:
+    enabled: true
+    type: ClusterIP
+    port: 5001
+    targetPort: 5001
+
+  env:
+    FETCH_INTERVAL: 10

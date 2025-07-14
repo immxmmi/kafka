@@ -1,0 +1,30 @@
+nameOverride: system
+replicaCount: 1
+
+kafkaBroker:
+  name: mykafka-cluster
+  namespace: kafka
+  kafkaPort: 9092
+  topic: topic-test-data
+
+deployment:
+  replicas: 1
+  containerPort: 8080
+  env:
+    # The Kafka consumer group in which this consumer runs (e.g., "solar-consumer")
+    KAFKA_CONSUMER_GROUP: "" 
+    # Offset control:
+    # "first" - Starts from the oldest available offset (reads all messages from the beginning)
+    # "last" - Starts from the latest offset (only reads new messages from the start time)
+    KAFKA_START_OFFSET: "first"
+
+image:
+  repository: harbor.puzzle.ch/pitc-cicd-private/kafka-poc
+  tag: latest
+  pullPolicy: IfNotPresent
+  imagePullSecret: registry-pull-secret
+
+service:
+  enabled: true
+  type: "ClusterIP"
+  port: 8080

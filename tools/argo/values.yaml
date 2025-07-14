@@ -1,0 +1,5 @@
+configs:
+  cm:
+    exec.enabled: true
+    rbac.policy.default: |
+      p, role:myrole, exec, create, */*, allow

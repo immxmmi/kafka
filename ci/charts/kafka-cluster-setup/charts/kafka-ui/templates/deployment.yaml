@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ default "kafka-ui" .Values.nameOverride }}-deployment
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ default "kafka-ui" .Values.nameOverride }}
+  template:
+    metadata:
+      labels:
+        app: {{ default "kafka-ui" .Values.nameOverride }}
+    spec:
+      {{- if .Values.deployment.imagePullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.deployment.imagePullSecret }}
+      {{- end }}
+      containers:
+        {{- with .Values.deployment }}
+        - name: {{ default "kafka-ui" $.Values.nameOverride }}
+          image: {{ .image }}:{{ .tag }}
+          imagePullPolicy: {{ .imagePullPolicy }}
+          ports:
+            - containerPort: {{ .containerPort }}
+        {{- end }}
+          env:
+            - name: KAFKA_CLUSTERS_0_NAME
+              value: "{{ .Values.cluster.name }}"
+            - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
+              value: "{{ .Values.cluster.name }}-kafka-bootstrap.{{ .Values.cluster.namespace }}.svc.cluster.local:{{ .Values.cluster.kafkaPort }}"

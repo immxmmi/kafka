@@ -1,0 +1,11 @@
+apiVersion: v2
+name: kafka-showcase-system
+version: 1.0.0
+
+dependencies:
+  - name: kafka-web-consumer
+    version: 1.0.0
+  - name: mqtt-bridge
+    version: 1.0.0
+  - name: mqtt-producer
+    version: 1.0.0
