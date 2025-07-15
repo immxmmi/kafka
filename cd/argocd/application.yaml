@@ -10,7 +10,10 @@ spec:
   source:
     repoURL: ghcr.io/immxmmi/showcase
     chart: showcase
-    targetRevision: 1.0.1 
+    targetRevision: 1.0.1
+    helm:
+      valueFiles:
+        - https://raw.githubusercontent.com/immxmmi/kafka/main/cd/argocd/values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: kafka-showcase
