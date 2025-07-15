@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: ghcr.io/immxmmi/showcase
     chart: showcase
-    targetRevision: 1.0.1
+    targetRevision: 1.0.2
     helm:
       valueFiles:
         - https://raw.githubusercontent.com/immxmmi/kafka/main/cd/deployments/showcase/values.yaml

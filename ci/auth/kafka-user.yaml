@@ -1,0 +1,16 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  name: solar-reader
+  namespace: kafka-showcase
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    type: simple
+    acls:
+      - resource:
+          type: topic
+          name: topic-solar-data
+          patternType: literal
+        operation: Read
