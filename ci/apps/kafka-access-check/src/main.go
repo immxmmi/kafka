@@ -436,9 +436,17 @@ func produceKafkaMessageWithCreds(msgStr, bootstrap, topic, username, password s
 		TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
 		Value:          []byte(msgStr),
 	}
-	err = producer.Produce(testMsg, nil)
+
+	deliveryChan := make(chan kafka.Event, 1)
+	err = producer.Produce(testMsg, deliveryChan)
 	if err != nil {
 		return fmt.Errorf("📤 Produce failed: %w", err)
+	}
+
+	e := <-deliveryChan
+	m := e.(*kafka.Message)
+	if m.TopicPartition.Error != nil {
+		return fmt.Errorf("📤 Delivery failed: %w", m.TopicPartition.Error)
 	}
 	producer.Flush(5000)
 	return nil
