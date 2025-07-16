@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/strimzi/strimzi-kafka-operator
     path: install/drain-cleaner
-    targetRevision: 0.46.1
+    targetRevision: 0.47.0
     directory:
       recurse: true
   destination:
