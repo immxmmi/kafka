@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-access-check
+  labels:
+    app: kafka-access-check
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-access-check
+  template:
+    metadata:
+      labels:
+        app: kafka-access-check
+    spec:
+      containers:
+        - name: app
+          image: your-registry/kafka-access-check:latest
+          ports:
+            - containerPort: 2112
+          env:
+            - name: KAFKA_BOOTSTRAP
+              value: "my-cluster-kafka-bootstrap.kafka:9093"
+            - name: KAFKA_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: kafka-user-secret
+                  key: username
+            - name: KAFKA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kafka-user-secret
+                  key: password
+            - name: KAFKA_TOPIC
+              value: "test-topic"
