@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: ghcr.io/immxmmi/kafka-cluster-setup
     chart: kafka-cluster-setup
-    targetRevision: 1.0.0
+    targetRevision: 1.0.3
     helm:
       valueFiles:
       - https://raw.githubusercontent.com/immxmmi/kafka/main/cd/deployments/cluster/values.yaml
