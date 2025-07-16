@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: your-registry/kafka-access-check:latest
+          image: ghcr.io/immxmmi/puzzle-kafka-access-check:latest
           ports:
             - containerPort: 2112
           env:
