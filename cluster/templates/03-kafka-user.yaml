@@ -8,3 +8,10 @@ metadata:
 spec:
   authentication:
     type: scram-sha-512
+  authorization:
+    acls:
+      - resource:
+          type: topic
+          name: test-topic
+          patternType: literal
+        operation: Write
