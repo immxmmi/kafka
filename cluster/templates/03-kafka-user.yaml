@@ -1,7 +1,8 @@
+---
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaUser
 metadata:
-  name: my-user
+  name: readonly-user
   namespace: kafka
   labels:
     strimzi.io/cluster: my-cluster
@@ -17,11 +18,9 @@ spec:
           patternType: literal
         operations:
           - Read
-          - Write
-      # Optional: Wenn Konsumption über consumer-group gewünscht ist
       - resource:
           type: group
-          name: my-user-group
+          name: readonly-user-group
           patternType: literal
         operations:
           - Read
