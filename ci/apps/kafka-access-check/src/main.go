@@ -359,12 +359,15 @@ func main() {
 			password = currentPassword
 		}
 
+		var statusText string
 		err := produceKafkaMessageWithCreds("Test message", bootstrap, topic, username, password)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		fmt.Fprint(w, "Kafka write test succeeded")
+		statusText = "✅ Broker erreichbar\n✅ Authentifizierung und Nachrichtensenden erfolgreich"
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+		fmt.Fprint(w, statusText)
 	})
 
 	log.Println("✅ Serving on :2112")
@@ -408,13 +411,35 @@ func produceKafkaMessage(msgStr string) error {
 func produceKafkaMessageWithCreds(msgStr, bootstrap, topic, username, password string) error {
 	host, port, err := net.SplitHostPort(bootstrap)
 	if err != nil {
-		return fmt.Errorf("invalid bootstrap format (expected host:port): %w", err)
+		return fmt.Errorf("⛔ Invalid bootstrap format (expected host:port): %w", err)
 	}
 
 	conn, err := net.DialTimeout("tcp", net.JoinHostPort(host, port), 3*time.Second)
 	if err != nil {
-		return fmt.Errorf("cannot reach broker: %w", err)
+		return fmt.Errorf("⛔ Broker not reachable: %w", err)
 	}
 	conn.Close()
+
+	producer, err := kafka.NewProducer(&kafka.ConfigMap{
+		"bootstrap.servers": bootstrap,
+		"security.protocol": "SASL_SSL",
+		"sasl.mechanism":    "SCRAM-SHA-512",
+		"sasl.username":     username,
+		"sasl.password":     password,
+	})
+	if err != nil {
+		return fmt.Errorf("🔐 Auth failed: %w", err)
+	}
+	defer producer.Close()
+
+	testMsg := &kafka.Message{
+		TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
+		Value:          []byte(msgStr),
+	}
+	err = producer.Produce(testMsg, nil)
+	if err != nil {
+		return fmt.Errorf("📤 Produce failed: %w", err)
+	}
+	producer.Flush(5000)
 	return nil
 }
