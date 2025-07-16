@@ -25,12 +25,12 @@ spec:
             - name: KAFKA_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: kafka-user-secret
+                  name: readonly-user
                   key: username
             - name: KAFKA_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: kafka-user-secret
+                  name: readonly-user
                   key: password
             - name: KAFKA_TOPIC
               value: "test-topic"
