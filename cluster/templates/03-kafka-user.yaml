@@ -8,3 +8,20 @@ metadata:
 spec:
   authentication:
     type: scram-sha-512
+  authorization:
+    type: simple
+    acls:
+      - resource:
+          type: topic
+          name: test-topic
+          patternType: literal
+        operations:
+          - Read
+          - Write
+      # Optional: Wenn Konsumption über consumer-group gewünscht ist
+      - resource:
+          type: group
+          name: my-user-group
+          patternType: literal
+        operations:
+          - Read
