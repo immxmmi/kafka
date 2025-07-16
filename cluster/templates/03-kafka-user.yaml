@@ -15,3 +15,10 @@ spec:
           name: test-topic
           patternType: literal
         operation: Write
+        host: "*"
+      - resource:
+          type: topic
+          name: test-topic
+          patternType: literal
+        operation: Describe
+        host: "*"
