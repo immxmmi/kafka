@@ -34,7 +34,7 @@ help:
 strimzi_operator_install:
 	# kubectl create -f 'https://strimzi.io/install/latest?namespace=kafka' -n kafka
 	@echo "🚀 Installing Strimzi Operator via ArgoCD Application..."
-	@kubectl apply -f application.yaml
+	@kubectl apply -f ./app/
 	@echo -e "$(GREEN)✅ Strimzi Operator Application has been applied via ArgoCD.$(NC)"
 
 # ─────────────────────────────────────────────────────────────
