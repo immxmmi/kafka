@@ -52,13 +52,13 @@ kafka-cluster-setup:
           memory: "4Gi"
           cpu: "1"
     topics:
-  #   - name: topic-solar-data
-  #     partitions: 1
-  #     replicas: 1
-  #     config:
-  #       retention.ms: 604800000
-  #       segment.bytes: 104857500
-  #       cleanup.policy: delete
+     - name: topic-solar-data
+       partitions: 1
+       replicas: 1
+       config:
+         retention.ms: 604800000
+         segment.bytes: 104857500
+         cleanup.policy: delete
 
   #    - name: topic-traffic-data
   #      partitions: 1
