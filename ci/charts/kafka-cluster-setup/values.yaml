@@ -27,15 +27,7 @@ kafka-cluster:
     version: 4.0.0
     metadataVersion: 4.0-IV3
     # Kafka listener types and ports
-    listeners:
-      - name: plain
-        port: 9092
-        type: internal
-        tls: false
-      - name: tls
-        port: 9093
-        type: internal
-        tls: true
+    tlsEnabled: false
     # Key Kafka configuration options
     config:
       auto.create.topics.enable: false
