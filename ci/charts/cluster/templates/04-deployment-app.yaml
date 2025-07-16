@@ -17,6 +17,7 @@ spec:
       containers:
         - name: app
           image: ghcr.io/immxmmi/puzzle-kafka-access-check:latest
+          pullPolicy: Always
           ports:
             - containerPort: 2112
           livenessProbe:
