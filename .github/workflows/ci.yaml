@@ -42,7 +42,7 @@ jobs:
 
   helm-package-push:
     runs-on: ubuntu-latest
- #   if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || contains(github.event.head_commit.message, 'ci/charts/') }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || contains(github.event.head_commit.message, 'ci/charts/') }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -71,7 +71,7 @@ jobs:
   helm-umbrella-package-push:
     needs: helm-package-push
     runs-on: ubuntu-latest
-#    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || contains(github.event.head_commit.message, 'ci/charts-umbrella/') }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || contains(github.event.head_commit.message, 'ci/charts-umbrella/') }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
