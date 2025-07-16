@@ -417,4 +417,4 @@ func produceKafkaMessageWithCreds(msgStr, bootstrap, topic, username, password s
 	}
 	conn.Close()
 	return nil
-}√
+}
