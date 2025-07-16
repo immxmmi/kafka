@@ -10,13 +10,13 @@ spec:
   source:
     repoURL: ghcr.io/immxmmi/kafka-cluster-setup
     chart: kafka-cluster-setup
-    targetRevision: 1.0.2
+    targetRevision: 1.0.0
     helm:
       valueFiles:
       - https://raw.githubusercontent.com/immxmmi/kafka/main/cd/deployments/cluster/values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: kafka-showcase
+    namespace: kafka
   syncPolicy:
     automated:
       prune: true
