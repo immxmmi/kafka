@@ -38,10 +38,7 @@ spec:
             - name: KAFKA_BOOTSTRAP
               value: "my-cluster-kafka-bootstrap.kafka:9093"
             - name: KAFKA_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: readonly-user
-                  key: username
+              value: "readonly-user"
             - name: KAFKA_PASSWORD
               valueFrom:
                 secretKeyRef:

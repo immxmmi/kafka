@@ -9,6 +9,7 @@ metadata:
 spec:
   authentication:
     type: scram-sha-512
+    username: readonly-user
   authorization:
     type: simple
     acls:
