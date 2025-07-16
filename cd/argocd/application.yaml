@@ -8,9 +8,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/immxmmi/kafka/tree/main/ci/charts.git
+    repoURL: https://github.com/immxmmi/kafka.git
     targetRevision: main
-    path: cluster
+    path: ci/charts/cluster
     helm:
       valueFiles:
       - https://raw.githubusercontent.com/immxmmi/kafka/main/cd/deployments/cluster/values.yaml
