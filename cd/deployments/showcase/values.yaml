@@ -15,6 +15,7 @@ kafka-cluster-setup:
       name: kafka-showcase-cluster
       version: 4.0.0
       metadataVersion: 4.0-IV3
+      kafkaPort: 9092
       tlsEnabled: false
       config:
         auto.create.topics.enable: false
