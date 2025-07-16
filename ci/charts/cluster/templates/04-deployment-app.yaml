@@ -19,6 +19,21 @@ spec:
           image: ghcr.io/immxmmi/puzzle-kafka-access-check:latest
           ports:
             - containerPort: 2112
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: 2112
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /metrics
+              port: 2112
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
           env:
             - name: KAFKA_BOOTSTRAP
               value: "my-cluster-kafka-bootstrap.kafka:9093"
