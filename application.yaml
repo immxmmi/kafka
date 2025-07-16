@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kafka-cluster
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io/resources
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/immxmmi/kafka.git
+    targetRevision: main
+    path: cluster
+    helm:
+      valueFiles:
+      - https://raw.githubusercontent.com/immxmmi/kafka/main/cd/deployments/cluster/values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kafka
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
