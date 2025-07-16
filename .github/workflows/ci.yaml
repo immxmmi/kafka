@@ -50,7 +50,7 @@ jobs:
 
   helm-package-push:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || contains(github.event.head_commit.message, 'ci/charts/') }}
+ #   if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || contains(github.event.head_commit.message, 'ci/charts/') }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
