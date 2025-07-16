@@ -1,10 +1,3 @@
-ingress:
-  enabled: false
-  hostname: "kafka-poc.ocp.cloudscale.puzzle.ch"
-
-externalSecret:
-  registry: true
-
 mosquitto:
   global:
     nameOverride: "system-mosquitto"
@@ -14,7 +7,7 @@ kafka-cluster-setup:
   kafka-ui:
     cluster:
       name: kafka-showcase-cluster           # Name of the Kafka cluster
-      namespace: pitc-cicd-kafka-showcase    # Kubernetes namespace where the Kafka cluster is deployed
+      namespace: kafka-showcase    # Kubernetes namespace where the Kafka cluster is deployed
 
   # Kafka cluster configuration
   kafka-cluster:
