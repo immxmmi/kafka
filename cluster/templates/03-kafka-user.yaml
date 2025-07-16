@@ -7,4 +7,20 @@ metadata:
     strimzi.io/cluster: my-cluster
 spec:
   authentication:
-    type: scram-sha-512
+    type: tls
+  authorization:
+    type: simple
+    acls:
+      - resource:
+          type: topic
+          name: "*"
+          patternType: literal
+        operations:
+          - Read
+          - Describe
+      - resource:
+          type: group
+          name: my-group
+          patternType: prefix
+        operations:
+          - Read
